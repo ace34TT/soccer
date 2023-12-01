@@ -8,17 +8,23 @@ require_once 'classes/Defense.php';
 Flight::route('/', function () {
     echo 'hello world!';
 });
-const DB_CONFIG = array('mysql:host=localhost;dbname=football', 'root', 'root');
+const DB_CONFIG = array('mysql:host=81.19.215.12;dbname=cscsmada_soccer', 'cscsmada_guest', 'codeace34TT');
+// const DB_CONFIG = array('mysql:host=sql105.infinityfree.com;dbname=if0_35532166_soccer', 'if0_35532166', 'V0umelLYgXXicFY');
 const CONTEXT = 'http://localhost:80/football';
-Flight::register('db', 'PDO', DB_CONFIG,
-    function($db){
+
+Flight::register(
+    'db',
+    'PDO',
+    DB_CONFIG,
+    function ($db) {
         try {
-            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);        
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch (PDOException $e) {
             echo "Erreur : " . $e->getMessage();
         }
     }
 );
+
 //liste de tous les equipes en general
 Flight::route('GET /stat/equip', function () {
     General::findAll();
@@ -33,7 +39,7 @@ Flight::route('GET /stat/equip/exterieur+', function () {
 });
 //inserer nouveau statistiques en generale de 1 equipe
 Flight::route('POST /stat/equip/@idCompetEquipe/@buts/@carteJaune/@carteRouge/@possesion/@passesReussies/@AeriensGagnes/@noteEquipe', function ($idCompetEquipe, $buts, $carteJaune, $carteRouge, $possession, $passesReussies, $AeriensGagnes, $noteEquipe) {
-    General::insert($idCompetEquipe, $buts, $carteJaune, $carteRouge, $possession, $passesReussies, $AeriensGagnes, $noteEquipe);  
+    General::insert($idCompetEquipe, $buts, $carteJaune, $carteRouge, $possession, $passesReussies, $AeriensGagnes, $noteEquipe);
 });
 
 //liste de tous les equipes plan attacque
@@ -49,8 +55,8 @@ Flight::route('GET /stat/equip/attack/exterieur+', function () {
     Attaque::findType(2);
 });
 //inserer nouveau statistiques attaque de 1 equipe
-Flight::route('POST /stat/equip/attack/@idCompetEquipe/@tirsPmAttaque/@tirsCAPm/@driblesPm/@fautesSubiesPm/@note', function ($idCompetEquipe,$tirsPmAttaque,$tirsCAPm,$driblesPm,$fautesSubiesPm,$note) {
-    Attaque::insert($idCompetEquipe,$tirsPmAttaque,$tirsCAPm,$driblesPm,$fautesSubiesPm,$note);  
+Flight::route('POST /stat/equip/attack/@idCompetEquipe/@tirsPmAttaque/@tirsCAPm/@driblesPm/@fautesSubiesPm/@note', function ($idCompetEquipe, $tirsPmAttaque, $tirsCAPm, $driblesPm, $fautesSubiesPm, $note) {
+    Attaque::insert($idCompetEquipe, $tirsPmAttaque, $tirsCAPm, $driblesPm, $fautesSubiesPm, $note);
 });
 //liste de tous les equipes plan defense 
 Flight::route('GET /stat/equip/defense', function () {
@@ -65,13 +71,8 @@ Flight::route('GET /stat/equip/defense/exterieur+', function () {
     Defense::findType(2);
 });
 //inserer nouveau statistiques defense de 1 equipe
-Flight::route('POST /stat/equip/defense/@idCompetEquipe/@tirsPmDefense/@taclesPm/@interceptionsPm/@fautesPm/@horsJeuxPm/@note', function ($idCompetEquipe,$tirsPmDefense,$taclesPm,$interceptionsPm,$fautesPm,$horsJeuxPm,$note) {
-    Defense::insert($idCompetEquipe,$tirsPmDefense,$taclesPm,$interceptionsPm,$fautesPm,$horsJeuxPm,$note);  
+Flight::route('POST /stat/equip/defense/@idCompetEquipe/@tirsPmDefense/@taclesPm/@interceptionsPm/@fautesPm/@horsJeuxPm/@note', function ($idCompetEquipe, $tirsPmDefense, $taclesPm, $interceptionsPm, $fautesPm, $horsJeuxPm, $note) {
+    Defense::insert($idCompetEquipe, $tirsPmDefense, $taclesPm, $interceptionsPm, $fautesPm, $horsJeuxPm, $note);
 });
-// http://localhost:80/football/stat/equip/attack
-// http://localhost:80/football/stat/equip/attack/1/5/10/0.0/0.0/0.0/0.0
-//  http://localhost:80/football/stat/equip/3/22/2/2/2.2/2.3/2,6/2,5
-//  http://localhost:80/football/stat/equip/defense/3/1/0/0/0/0/0
 
 Flight::start();
-?>
